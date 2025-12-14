@@ -1,0 +1,122 @@
+# Vehicle Maintenance System using Python
+
+vehicles = {}
+
+def add_vehicle():
+    reg_no = input("Enter vehicle registration number: ")
+    if reg_no in vehicles:
+        print("Vehicle already exists!")
+        return
+
+    owner = input("Enter owner name: ")
+    model = input("Enter vehicle model: ")
+
+    vehicles[reg_no] = {
+        "owner": owner,
+        "model": model,
+        "maintenance": []
+    }
+
+    print("Vehicle added successfully.")
+
+def update_maintenance():
+    reg_no = input("Enter registration number: ")
+
+    if reg_no not in vehicles:
+        print("Vehicle not found!")
+        return
+
+    date = input("Enter service date (DD/MM/YYYY): ")
+    description = input("Enter service description: ")
+    cost = float(input("Enter service cost: "))
+
+    record = {
+        "date": date,
+        "description": description,
+        "cost": cost
+    }
+
+    vehicles[reg_no]["maintenance"].append(record)
+    print("Maintenance record added.")
+
+def view_maintenance():
+    reg_no = input("Enter registration number: ")
+
+    if reg_no not in vehicles:
+        print("Vehicle not found!")
+        return
+
+    history = vehicles[reg_no]["maintenance"]
+
+    if not history:
+        print("No maintenance records available.")
+        return
+
+    print("\nMaintenance History:")
+    for i, record in enumerate(history, start=1):
+        print(f"{i}. Date: {record['date']}, "
+              f"Issue: {record['description']}, "
+              f"Cost: ₹{record['cost']}")
+
+def search_vehicle():
+    reg_no = input("Enter registration number: ")
+
+    if reg_no in vehicles:
+        v = vehicles[reg_no]
+        print("\nVehicle Details:")
+        print("Owner:", v["owner"])
+        print("Model:", v["model"])
+        print("Total Services:", len(v["maintenance"]))
+    else:
+        print("Vehicle not found!")
+
+def display_all_vehicles():
+    if not vehicles:
+        print("No vehicles available.")
+        return
+
+    print("\nAll Vehicles:")
+    for reg_no, v in vehicles.items():
+        print(f"Reg No: {reg_no}, Owner: {v['owner']}, Model: {v['model']}")
+
+def delete_vehicle():
+    reg_no = input("Enter registration number to delete: ")
+
+    if reg_no in vehicles:
+        del vehicles[reg_no]
+        print("Vehicle deleted successfully.")
+    else:
+        print("Vehicle not found!")
+
+def menu():
+    while True:
+        print("\n=== VEHICLE MAINTENANCE SYSTEM ===")
+        print("1. Add Vehicle")
+        print("2. Update Maintenance Record")
+        print("3. View Maintenance History")
+        print("4. Search Vehicle")
+        print("5. Display All Vehicles")
+        print("6. Delete Vehicle")
+        print("7. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            add_vehicle()
+        elif choice == '2':
+            update_maintenance()
+        elif choice == '3':
+            view_maintenance()
+        elif choice == '4':
+            search_vehicle()
+        elif choice == '5':
+            display_all_vehicles()
+        elif choice == '6':
+            delete_vehicle()
+        elif choice == '7':
+            print("Exiting program...")
+            break
+        else:
+            print("Invalid choice! Try again.")
+
+menu()
